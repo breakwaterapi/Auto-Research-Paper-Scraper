@@ -3,8 +3,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from mistralai.client import MistralClient
-from mistralai.models.chat_completion import ChatMessage
+from mistralai.client import Mistral
 from openai import OpenAI
 
 from config import ENABLE_LLM_FILTER, PROMPT_LLM_DEEPINTOMLF, MODEL_LLM
@@ -34,14 +33,14 @@ class llm_wrapper_mistral(Llm_wrapper):
             print("No API key for the Mistral LLM found, returning None.")
             client = None
         else:
-            client = MistralClient(api_key=os.environ["MISTRAL_API_KEY"])
+            client = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
         super().__init__(client)
 
     def query(self, prompt: str) -> Optional[str]:
         try:
-            answer = self.client.chat(
+            answer = self.client.chat.complete(
                 model=MODEL_LLM,
-                messages=[ChatMessage(role="user", content=prompt)],
+                messages=[{"role": "user", "content": prompt}],
                 # Set 100 to get explanation from LLM in answer
                 max_tokens=1,
                 temperature=0.03,
