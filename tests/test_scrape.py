@@ -4,7 +4,7 @@ import unittest
 import arxiv  # Assuming this is the module you use for sorting order
 import pandas as pd
 from dotenv import load_dotenv
-from mistralai.client import MistralClient
+from mistralai.client import Mistral
 
 from config import QUERY_ARXIV_DEEPINTOMLF
 from src.scraping_methods import scrape_arxiv, get_data, scrape_llm
@@ -115,4 +115,4 @@ class TestArxivScraping(unittest.TestCase):
         load_dotenv()  # Load environment variables from .env file
         self.assertTrue("MISTRAL_API_KEY" in os.environ)
 
-        MistralClient(api_key=os.environ["MISTRAL_API_KEY"])
+        Mistral(api_key=os.environ["MISTRAL_API_KEY"])
